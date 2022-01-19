@@ -3,10 +3,19 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.shinyhut</groupId>
-    <artifactId>vernacular</artifactId>
+    <properties>
+        <version>1.0.0</version>
+        <jarName>remote-1.0.0.jar</jarName>
+        <exeName>remote-1.0.0.exe</exeName>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <groupId>com.jding</groupId>
+    <artifactId>remote</artifactId>
     <packaging>jar</packaging>
-    <version>1.15-SNAPSHOT</version>
+    <version>${version}</version>
 
     <name>vernacular</name>
     <description>A pure Java VNC client library and viewer application.</description>
@@ -33,12 +42,6 @@
         <developerConnection>scm:git:ssh://github.com:shinyhut/vernacular-vnc.git</developerConnection>
         <url>http://github.com/shinyhut/vernacular-vnc/tree/master</url>
     </scm>
-
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencyManagement>
         <dependencies>
@@ -84,15 +87,21 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
+
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.jding.remote.VernacularViewer</mainClass>
+                            <mainClass>com.jding.remote.RemoteViewer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

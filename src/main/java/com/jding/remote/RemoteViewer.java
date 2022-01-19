@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
+import java.net.URL;
+import java.util.prefs.Preferences;
 
 import static com.jding.remote.client.rendering.ColorDepth.*;
 import static java.awt.BorderLayout.CENTER;
@@ -53,6 +55,9 @@ public class RemoteViewer extends JFrame {
     private ImageIcon phoneIcon;
     private ImageIcon warningIcon;
     private ImageIcon passwordIcon;
+    private Image appIcon;
+    private Preferences prefs;
+
 
     private AncestorListener focusRequester = new AncestorListener() {
         @Override
@@ -96,10 +101,23 @@ public class RemoteViewer extends JFrame {
         return new ImageIcon(newimg);  // transform it back              
     }
 
+    private URL getResourceUrl(String resource) {
+        return Thread.currentThread().getContextClassLoader().getResource(resource);
+    }
+
+
     private RemoteViewer() {
-        phoneIcon = new ImageIcon("src/images/phone.png");  
-        warningIcon = new ImageIcon("src/images/warning.png");  
-        passwordIcon = new ImageIcon("src/images/password.png");  
+        prefs = Preferences.userNodeForPackage(getClass());
+
+        final URL phone = getResourceUrl("images/phone.png");
+        final URL warning = getResourceUrl("images/warning.png");
+        final URL password = getResourceUrl("images/password.png");
+        final URL app = getResourceUrl("images/app.png");
+        
+        phoneIcon = new ImageIcon(phone);  
+        warningIcon = new ImageIcon(warning);  
+        passwordIcon = new ImageIcon(password);    
+        appIcon = Toolkit.getDefaultToolkit().getImage(app);    
 
         initUI();
     }
@@ -126,6 +144,10 @@ public class RemoteViewer extends JFrame {
         addMouseListeners();
         addKeyListener();
         addDrawingSurface();
+
+        getRootFrame().setIconImage(appIcon);
+        setIconImage(appIcon);
+
         initialiseVernacularClient();
         clipboardMonitor.start();
     }
@@ -323,8 +345,10 @@ public class RemoteViewer extends JFrame {
         portLabel.setLabelFor(hostLabel);
         connectDialog.add(hostLabel);
         connectDialog.add(hostField);
-        connectDialog.add(portLabel);
-        connectDialog.add(portField);
+        //connectDialog.add(portLabel);
+        //connectDialog.add(portField);
+
+        hostField.setText(prefs.get("remote-server-ip", ""));
 
         int choice = showConfirmDialog(this, connectDialog, "Connect", OK_CANCEL_OPTION, 
             PLAIN_MESSAGE, this.resizeIcon(phoneIcon, 60, 60));
@@ -334,6 +358,7 @@ public class RemoteViewer extends JFrame {
                 showMessageDialog(this, "Please enter a valid host", null, WARNING_MESSAGE, this.resizeIcon(warningIcon, 60, 60));
                 return;
             }
+            prefs.put("remote-server-ip", host);
             int port;
             try {
                 port = parseInt(portField.getText());
