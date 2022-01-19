@@ -42,9 +42,9 @@ is primarily intended to be used as a library in third-party applications:
 ```java
 package com.shinyhut.vernacular;
 
-import com.shinyhut.vernacular.client.VernacularClient;
-import com.shinyhut.vernacular.client.VernacularConfig;
-import com.shinyhut.vernacular.client.rendering.ColorDepth;
+import com.jding.remote.client.VernacularClient;
+import com.jding.remote.client.VernacularConfig;
+import com.jding.remote.client.rendering.ColorDepth;
 
 public class VernacularDemo {
 

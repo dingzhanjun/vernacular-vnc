@@ -92,7 +92,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.shinyhut.vernacular.VernacularViewer</mainClass>
+                            <mainClass>com.jding.remote.VernacularViewer</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
